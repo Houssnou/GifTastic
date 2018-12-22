@@ -71,9 +71,26 @@
     //Make gifs "alive"
     function animateGifs() {
 
+      var state = $(this).attr("data-state");
+      console.log(`state: ${state}`);
+
+      if (state === "still") {
+        //get the value of data state
+        var newSrc = $(this).attr("data-animate");
+        $(this).attr("src", newSrc);
+        $(this).attr("data-state", "animate");
+      } else if (state === "animate") {
+        //get the value of data state
+        var newSrc = $(this).attr("data-still");
+        $(this).attr("src", newSrc);
+        $(this).attr("data-state", "still");
+      }
+
     };
     //Second Function dispalayGifs
     function displayGifs() {
+      //clear the content of gifs-display 
+      $("#gifs-display").empty();
 
       //get the value of the select topic
       var topic = $(this).attr("data-topic");
@@ -100,10 +117,10 @@
         //loop for the 10 elt returned by the API call with the limit of 10;
         for (var i = 0; i < 10; i++) {
           // topic body that will display first the still we decided to go with original because the height is 450 with an anime one of 450 while the still height and animate have 2 different sizes
-          imageTitle = results[i].title ? results[i].title : " No title" ;
+          imageTitle = results[i].title ? results[i].title : " No title";
           imageRating = results[i].rating;
           imageStillUrl = results[i].images.original_still.url;
-          imageAnimateUrl = results[i].images.original.url ? results[i].images.original.url : " No animate version";  
+          imageAnimateUrl = results[i].images.original.url ? results[i].images.original.url : " No animate version";
 
           // create bootstrap column for the image
           var topicCol = $("<div class='col-12 col-sm-6 col-md-4'>");
@@ -114,7 +131,7 @@
           // topic card header get the value of imagetitle and is appended to topicCard
           var topicCardHeader = $("<h4 class='card-header bg-dark text-light'>");
           topicCardHeader.text(imageTitle)
-                         .appendTo(topicCard);
+            .appendTo(topicCard);
 
           //topic card body not an easy one but try to follow my logic: a body will have a rate and an image
           var topicCardBody = $("<div class='card-body'>");
@@ -122,19 +139,19 @@
           var cardImage = $("<img>");
 
           //set the title of the card with the gif title
-          cardRating.text(imageRating);
+          cardRating.text(`Rating: ${imageRating}`);
 
           // lets build the image tag attributes since we will load the image with a default src at imageStillurl and a data state at still and a data animate src at imageAnimateUrl
           cardImage.attr("src", imageStillUrl)
-                   .attr("state", "still")
-                   .attr("data-still", imageStillUrl)
-                   .attr("data-animate", imageAnimateUrl)
-                   .attr("alt", imageTitle)
-                   .addClass("gif");
+            .attr("data-state", "still")
+            .attr("data-still", imageStillUrl)
+            .attr("data-animate", imageAnimateUrl)
+            .attr("alt", imageTitle)
+            .addClass("gif");
 
           // attach the body parts(rate and image ) to topicCardBody and append to the body to topicCard        
           topicCardBody.append(cardRating, cardImage)
-                       .appendTo(topicCard);
+            .appendTo(topicCard);
 
           //attach the topic card to the topic col created with bootstap
           topicCol.append(topicCard);
@@ -146,7 +163,7 @@
 
 
     }
-    //   event listener for the save topic button 
+    // event listener for the save topic button 
     $("#save-topic").on("click", function (event) {
       event.preventDefault();
 
@@ -164,7 +181,6 @@
 
     });
 
-
     //document loads and excecute functions
     $(document).ready(function () {
       //first display current topics
@@ -172,6 +188,11 @@
 
       // event listener to any element with a class of "btn topic"
       $(document).on("click", ".topic", displayGifs);
+
+      //event listener any elt with a class gif
+
+      $(document).on("click", ".gif", animateGifs);
+
 
     });
   </script>
