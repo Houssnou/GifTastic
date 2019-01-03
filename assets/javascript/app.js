@@ -45,7 +45,7 @@ function animateGifs() {
 };
 //Second Function dispalayGifs
 function displayGifs() {
-  //clear the content of carousel 
+  //clear the content of the carousel 
   //$("#carouselIndicators").empty();
   $(".carousel-indicators").empty();
   $(".carousel-inner").empty();
@@ -144,7 +144,8 @@ function displayGifs() {
       //add the content of the carousel div: image and description(title and ratings)
       //image
       var carouselImage = $("<img>");
-      carouselImage.addClass("d-block mx-auto")
+      carouselImage
+        .addClass("d-block mx-auto")
         .attr("src", imageStillUrl)
         .attr("data-state", "still")
         .attr("data-still", imageStillUrl)
@@ -154,7 +155,8 @@ function displayGifs() {
 
       //description
       carouselCaption = $("<div>");
-      carouselCaption.addClass("carousel-caption d-none d-md-block")
+      carouselCaption
+        .addClass("carousel-caption d-none d-md-block")
         .append(`<h4><u> Title</u> : ${imageTitle}</h4>`)
         .append(`<h4><u> Rating</u> : ${imageRating}</h4>`);
 
@@ -175,7 +177,7 @@ $("#save-topic").on("click", function (event) {
 
   // get the value of the text box
   var addTopic = $("#add-topic").val().trim();
- // alert(addTopic);
+  // alert(addTopic);
 
   // add the new topic to the topics array
   topics.push(addTopic);
